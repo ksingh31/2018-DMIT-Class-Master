@@ -91,6 +91,8 @@
                                  NavigateUrl="~/SamplePages/AlbumCRUDODS.aspx"></asp:MenuItem>
                                  <asp:MenuItem Text="Linq Query ODS"
                                  NavigateUrl="~/SamplePages/LinqQueryODS.aspx"></asp:MenuItem>
+                                <asp:MenuItem Text="Repeater ODS"
+                                 NavigateUrl="~/SamplePages/RepeaterODS.aspx"></asp:MenuItem>
                             </asp:MenuItem>
                         </Items>
                     </asp:Menu>
