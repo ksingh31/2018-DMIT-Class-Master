@@ -221,6 +221,7 @@
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="SamplePages\AlbumCRUDODS.aspx" />
+    <Content Include="SamplePages\AlbumInfoODS.aspx" />
     <Content Include="SamplePages\FilterSearch.aspx" />
     <Content Include="SamplePages\LinqQueryODS.aspx" />
     <Content Include="SamplePages\RepeaterODS.aspx" />
@@ -402,6 +403,13 @@
     </Compile>
     <Compile Include="SamplePages\AlbumCRUDODS.aspx.designer.cs">
       <DependentUpon>AlbumCRUDODS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\AlbumInfoODS.aspx.cs">
+      <DependentUpon>AlbumInfoODS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SamplePages\AlbumInfoODS.aspx.designer.cs">
+      <DependentUpon>AlbumInfoODS.aspx</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\FilterSearch.aspx.cs">
       <DependentUpon>FilterSearch.aspx</DependentUpon>

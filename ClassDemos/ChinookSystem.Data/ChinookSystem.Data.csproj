@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\InfoAlbum.cs" />
     <Compile Include="DTOs\SupportEmployee.cs" />
     <Compile Include="Entities\Album.cs" />
     <Compile Include="Entities\Artist.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Entities\Track.cs" />
     <Compile Include="POCOs\AlbumArtists.cs" />
     <Compile Include="POCOs\Client.cs" />
+    <Compile Include="POCOs\Song.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

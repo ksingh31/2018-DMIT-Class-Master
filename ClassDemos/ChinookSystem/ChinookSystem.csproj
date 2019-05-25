@@ -52,6 +52,7 @@
     <Compile Include="BLL\ArtistController.cs" />
     <Compile Include="BLL\BusinessRuleException.cs" />
     <Compile Include="BLL\EmployeeController.cs" />
+    <Compile Include="BLL\InfoAlbumController.cs" />
     <Compile Include="DAL\ChinookSystemContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
