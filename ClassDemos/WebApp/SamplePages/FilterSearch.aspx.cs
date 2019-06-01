@@ -179,5 +179,10 @@ namespace WebApp.SamplePages
                 }, "Remove", "Action successful");
             }
         }
+
+        protected void FetchAlbums_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

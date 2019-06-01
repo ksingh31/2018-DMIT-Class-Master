@@ -95,6 +95,8 @@
                                  NavigateUrl="~/SamplePages/RepeaterODS.aspx"></asp:MenuItem>
                                 <asp:MenuItem Text="Album Info List"
                                  NavigateUrl="~/SamplePages/AlbumInfoODS.aspx"></asp:MenuItem>
+                                <asp:MenuItem Text="OLTP"
+                                 NavigateUrl="~/SamplePages/ManagePlaylist.aspx"></asp:MenuItem>
                             </asp:MenuItem>
                         </Items>
                     </asp:Menu>

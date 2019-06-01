@@ -224,6 +224,7 @@
     <Content Include="SamplePages\AlbumInfoODS.aspx" />
     <Content Include="SamplePages\FilterSearch.aspx" />
     <Content Include="SamplePages\LinqQueryODS.aspx" />
+    <Content Include="SamplePages\ManagePlaylist.aspx" />
     <Content Include="SamplePages\RepeaterODS.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -424,6 +425,13 @@
     </Compile>
     <Compile Include="SamplePages\LinqQueryODS.aspx.designer.cs">
       <DependentUpon>LinqQueryODS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ManagePlaylist.aspx.cs">
+      <DependentUpon>ManagePlaylist.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SamplePages\ManagePlaylist.aspx.designer.cs">
+      <DependentUpon>ManagePlaylist.aspx</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RepeaterODS.aspx.cs">
       <DependentUpon>RepeaterODS.aspx</DependentUpon>
