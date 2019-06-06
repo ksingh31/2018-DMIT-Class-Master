@@ -62,6 +62,7 @@ namespace ChinookSystem.BLL
                 if (exists == null)
                 {
                     //create a new playlist
+                    exists = new Playlist();
                     exists.Name = playlistname;
                     exists.UserName = username;
                     //the .Add(item) ONLY stages your record for adding to the database
@@ -103,6 +104,31 @@ namespace ChinookSystem.BLL
                 {
                     // Part 2
                     // Adding the new track to the playlist tracks table
+
+                    // create a new instanrace of the PlaylistTrack
+                    newTrack = new PlaylistTrack();
+                    //load with known data
+                    newTrack.TrackId = trackid;
+                    newTrack.TrackNumber = tracknumber;
+
+                    // currently the Playlist ID is unknown if the Playlist is brand new
+                    // NOTE: using navigational properties, one can let the HashSet of 
+                    // playlist handle the PlaylistId PKey Value.
+                    // Adding via the navigational property will have the system enter
+                    // the parent PKey for the corresponding FKey value
+                    // In PlaylistTrack, PlaylistId is BOTH, the PKey and FKey
+                    // During Savechanges() the PlaylistId will be filled
+                    exists.PlaylistTracks.Add(newTrack);
+
+                    //committing of your work
+                    // only one comit for the transaction
+                    // During .Savechanges() the data is added physically to
+                    // your database at which time PKey (identity) is generated
+                    //the order of actions has been done by your logic
+                    // the playlist PKey will be generated
+                    //this value will be placed in the FKey of the child record
+                    // the child  record will be placed in its table
+                    context.SaveChanges();
                 }
 
             }
@@ -112,7 +138,85 @@ namespace ChinookSystem.BLL
             using (var context = new ChinookSystemContext())
             {
                 //code to go here 
+                // since data can be accessed by multiple individuals at the same time 
+                // your BLL method should do validation to ensure the data coming is appropriate
 
+                var exists = context.Playlists.Where(x => x.UserName.Equals(username) &&
+                                x.Name.Equals(playlistname)).Select(x => x).FirstOrDefault();
+                // playlist no longer exists
+                if (exists == null)
+                {
+                    throw new Exception("Playlist has been removed from files.");
+                }
+                else
+                {
+                    var movetrack = exists.PlaylistTracks.Where(x => x.TrackId == trackid).Select(x => x).FirstOrDefault();
+                    //playlist track no longer exists
+                    if(movetrack == null)
+                    {
+                        throw new Exception("Playlist track has been removed from files - Movetrack.");
+                    }
+                    else
+                    {
+                        PlaylistTrack othertrack = null;
+                        // determine direction
+                        if (direction.Equals("up"))
+                        {
+                            if (movetrack.TrackNumber == 1)
+                            {
+                                throw new Exception("Playlist track already at top.");
+                            }
+                            else
+                            {
+                                //setup for track movement
+                                othertrack = (from x in exists.PlaylistTracks
+                                              where x.TrackNumber == movetrack.TrackNumber - 1
+                                              select x).FirstOrDefault();
+                                if (othertrack == null)
+                                {
+                                    throw new Exception("Playlist tracks have been altered. Unable to Complete move");
+                                }
+
+                                else
+                                {
+                                    movetrack.TrackNumber -= 1;
+                                    othertrack.TrackNumber += 1;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (movetrack.TrackNumber == exists.PlaylistTracks.Count)
+                            {
+                                throw new Exception("Playlist track already at last.");
+                            }
+                            else
+                            {
+                                //setup for track movement
+                                othertrack = (from x in exists.PlaylistTracks
+                                              where x.TrackNumber == movetrack.TrackNumber + 1
+                                              select x).FirstOrDefault();
+                                if (othertrack == null)
+                                {
+                                    throw new Exception("Playlist tracks have been altered. Unable to Complete move");
+                                }
+
+                                else
+                                {
+                                    movetrack.TrackNumber += 1;
+                                    othertrack.TrackNumber -= 1;
+                                }
+                            }
+                        }
+                        //staging
+                        //update
+                        context.Entry(movetrack).Property(y => y.TrackNumber).IsModified = true;
+                        context.Entry(othertrack).Property(y => y.TrackNumber).IsModified = true;
+
+                        //commit
+                        context.SaveChanges();
+                    }
+                }
             }
         }//eom
 
