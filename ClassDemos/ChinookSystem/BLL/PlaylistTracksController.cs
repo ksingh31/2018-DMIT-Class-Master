@@ -226,6 +226,50 @@ namespace ChinookSystem.BLL
             using (var context = new ChinookSystemContext())
             {
                //code to go here
+               // find playlist
+
+            var exists = (from x in context.Playlists
+                    where x.UserName.Equals(username)
+                    && x.Name.Equals(playlistname)
+                    select x).FirstOrDefault();
+                // check
+                if (exists == null)
+                {
+                    //null - msg
+                    throw new Exception("Playlist has been removed from the file.");
+                }
+                else
+                {
+                    // exists
+                    //  find the tracks that will be kept
+                    //    these tracks will be in set A but not in set B
+                    var tracksKept = exists.PlaylistTracks
+                        .Where(tr => !trackstodelete.Any(td => td == tr.TrackId));
+                    //  remove the unwanted tracks from the database
+                    PlaylistTrack item = null;
+                    foreach (var dtrackid in trackstodelete)
+                    {
+                        // find track instance to delete
+                        item = exists.PlaylistTracks.Where(tr => tr.TrackId == dtrackid).Select(tr => tr).FirstOrDefault();
+                        // check
+                        if (item != null)
+                        {
+                            //   if its there then remove
+                            exists.PlaylistTracks.Remove(item);
+                        }
+                    }
+                    // renumber the tracks that were kept by updating their 
+                    //  track numbers 
+                    int number = 1;
+                    foreach (var tKept in tracksKept)
+                    {
+                        tKept.TrackNumber = number;
+                        context.Entry(tKept).Property(y => y.TrackNumber).IsModified = true;
+                        number++;
+                    }
+
+                    context.SaveChanges();
+                }
 
 
             }

@@ -262,7 +262,7 @@ namespace Jan2018DemoWebsite.SamplePages
                         if (playlistselection.Checked)
                         {
                             rowsselected++;
-                            trackstodelete.Add(int.Parse((PlayList.Rows[i].FindControl("TrackID") as TextBox).Text));
+                            trackstodelete.Add(int.Parse((PlayList.Rows[i].FindControl("TrackID") as Label).Text));
                         }
                     }
 
