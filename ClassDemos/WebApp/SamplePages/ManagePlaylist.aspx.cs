@@ -240,7 +240,51 @@ namespace Jan2018DemoWebsite.SamplePages
         protected void DeleteTrack_Click(object sender, EventArgs e)
         {
             //code to go here
- 
+            if (string.IsNullOrEmpty(PlaylistName.Text))
+            {
+                MessageUserControl.ShowInfo("Delete Tracks", "You need to look up your Playlist to select tracks to delete.");
+            }
+            else
+            {
+                if (PlayList.Rows.Count == 0)
+                {
+                    MessageUserControl.ShowInfo("Delete Tracks", "Playlist is required.");
+                }
+                else
+                {
+                    //gather data neccessary for deleting
+                    List<int> trackstodelete = new List<int>();
+                    int rowsselected = 0;
+                    CheckBox playlistselection = null;
+                    for (int i = 0; i < PlayList.Rows.Count; i++)
+                    {
+                        playlistselection = PlayList.Rows[i].FindControl("Selected") as CheckBox;
+                        if (playlistselection.Checked)
+                        {
+                            rowsselected++;
+                            trackstodelete.Add(int.Parse((PlayList.Rows[i].FindControl("TrackID") as TextBox).Text));
+                        }
+                    }
+
+                    //was atleast one track selected
+                    if (rowsselected == 0)
+                    {
+                        MessageUserControl.ShowInfo("Delete Tracks", "Select atleast one track from the Playlist.");
+                    }
+                    else
+                    {
+                        MessageUserControl.TryRun(() =>
+                        {
+                            // pass on the data to do the delete in BLL when finished do refresh the list
+                            PlaylistTracksController sysmgr = new PlaylistTracksController();
+                            sysmgr.DeleteTracks("Webmaster", PlaylistName.Text, trackstodelete);
+                            List<UserPlaylistTrack> datainfo = sysmgr.List_TracksForPlaylist(PlaylistName.Text, "Webmaster");
+                            PlayList.DataSource = datainfo;
+                            PlayList.DataBind();
+                        }, "Delete Tracks", "Tracks have been removed");
+                    }
+                }
+            }
         }
 
         protected void TracksSelectionList_ItemCommand(object sender, 
