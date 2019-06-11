@@ -71,9 +71,9 @@ select new {
 						PickedQty = y.QtyPicked,
 						Discount = y.Discount,
 						Subtotal = y.Price * (decimal)y.QtyPicked - y.Discount,
-						Tax = y.Product.Taxable? ((decimal)y.QtyPicked * y.Price - y.Discount) * 0.05 : 0.00,
+						Tax = y.Product.Taxable? ((decimal)y.QtyPicked * y.Price - y.Discount) * 0.05m : 0.00m,
 						ExtendedPrice = ((decimal)y.QtyPicked * y.Price - y.Discount) + 
-										(y.Product.Taxable? ((decimal)y.QtyPicked * y.Price - y.Discount) * 0.05 : 0.00)
+										(y.Product.Taxable? ((decimal)y.QtyPicked * y.Price - y.Discount) * 0.05m : 0.00m)
 					}
 }
 
@@ -86,10 +86,14 @@ from x in Orders select x
 from x in Pickers join y in Orders
 	on x.PickerID equals y.PickerID into xPicOrd
 	select xPicOrd
+from x in Pickers join y in Orders
+	on x.PickerID equals y.PickerID into xPicOrd
 	select new {
 		picker = x.LastName + ", " + x.FirstName,
+		pickdates = from y in xPicOrd
 		select new {
-			pickdates = xPicOrd
+			ID = y.OrderID,
+			Date = y.PickedDate
 		}
 }
 
