@@ -37,8 +37,22 @@ namespace WebApp.Security
             }, adminPassword);
             if (result.Succeeded)
                 userManager.AddToRole(userManager.FindByName(adminUser).Id, adminRole);
-            #endregion
+            
+            // adding customer
+            string customerUser = ConfigurationManager.AppSettings["customerUserName"];
+            string customerRole = ConfigurationManager.AppSettings["customerRole"];
+            string customerEmail = ConfigurationManager.AppSettings["customerEmail"];
+            string customerPassword = ConfigurationManager.AppSettings["customerPassword"];
+            result = userManager.Create(new ApplicationUser
+            {
+                UserName = customerUser,
+                Email = customerEmail,
+                CustomerId = 4
+            }, customerPassword);
+            if (result.Succeeded)
+                userManager.AddToRole(userManager.FindByName(customerUser).Id, customerRole);
 
+            #endregion
             // ... etc. ...
 
             base.Seed(context);
