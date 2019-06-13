@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -16,7 +17,19 @@ namespace Jan2018DemoWebsite.SamplePages
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            string customerRole = ConfigurationManager.AppSettings["customerRole"];
             TracksSelectionList.DataSource = null;
+            if (Request.IsAuthenticated)
+            {
+                if (!User.IsInRole(customerRole))
+                {
+                    Response.Redirect("~/Default.aspx");
+                }
+            }
+            else
+            {
+                Response.Redirect("~/Account/Login.aspx");
+            }
         }
 
         protected void CheckForException(object sender, ObjectDataSourceStatusEventArgs e)
