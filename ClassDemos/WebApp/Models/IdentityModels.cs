@@ -13,6 +13,12 @@ namespace WebApp.Models
     // You can add User data for the user by adding more properties to your User class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        #region Custom ASPNETUsers properties
+            //these are the additional properties (data fields) that the 
+            //developer wishes to be kept on the ASPNetUsers table
+            public int? EmployeeId { get; set; }
+            public int? CustomerId { get; set; }
+        #endregion
         public ClaimsIdentity GenerateUserIdentity(ApplicationUserManager manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
