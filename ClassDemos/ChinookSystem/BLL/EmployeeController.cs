@@ -42,5 +42,21 @@ namespace ChinookSystem.BLL
                 return emplist.ToList();
             }
         }
+
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<SelectionList> Employee_ListNames()
+        {
+            using (var context = new ChinookSystemContext())
+            {
+                var employeelist = from x in context.Employees
+                                   orderby x.LastName, x.FirstName
+                                   select new SelectionList
+                                   {
+                                       DisplayText = x.LastName + ", " + x.FirstName,
+                                       IDValueField = x.EmployeeId
+                                   };
+                return employeelist.ToList();
+            }
+        }
     }
 }

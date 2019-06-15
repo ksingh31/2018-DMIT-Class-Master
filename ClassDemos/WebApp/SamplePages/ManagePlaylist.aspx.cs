@@ -23,7 +23,7 @@ namespace Jan2018DemoWebsite.SamplePages
             {
                 if (!User.IsInRole(customerRole))
                 {
-                    Response.Redirect("~/Default.aspx");
+                    Response.Redirect("~/Security/AccessDenied.aspx");
                 }
             }
             else
@@ -85,7 +85,7 @@ namespace Jan2018DemoWebsite.SamplePages
             }
             else
             {
-                string username = "Webmaster"; //we will alter this when security is done
+                string username = User.Identity.Name; //we will alter this when security is done
                 string playlistname = PlaylistName.Text;
                 MessageUserControl.TryRun(() =>
                 {
@@ -242,8 +242,8 @@ namespace Jan2018DemoWebsite.SamplePages
             MessageUserControl.TryRun(() =>
             {
                 PlaylistTracksController sysmgr = new PlaylistTracksController();
-                sysmgr.MoveTrack("Webmaster", PlaylistName.Text, trackid, tracknumber, direction);
-                List<UserPlaylistTrack> datainfo = sysmgr.List_TracksForPlaylist(PlaylistName.Text, "Webmaster");
+                sysmgr.MoveTrack(User.Identity.Name, PlaylistName.Text, trackid, tracknumber, direction);
+                List<UserPlaylistTrack> datainfo = sysmgr.List_TracksForPlaylist(PlaylistName.Text, User.Identity.Name);
                 PlayList.DataSource = datainfo;
                 PlayList.DataBind();
             },"Move Track","Track has been moved");
@@ -290,8 +290,8 @@ namespace Jan2018DemoWebsite.SamplePages
                         {
                             // pass on the data to do the delete in BLL when finished do refresh the list
                             PlaylistTracksController sysmgr = new PlaylistTracksController();
-                            sysmgr.DeleteTracks("Webmaster", PlaylistName.Text, trackstodelete);
-                            List<UserPlaylistTrack> datainfo = sysmgr.List_TracksForPlaylist(PlaylistName.Text, "Webmaster");
+                            sysmgr.DeleteTracks(User.Identity.Name, PlaylistName.Text, trackstodelete);
+                            List<UserPlaylistTrack> datainfo = sysmgr.List_TracksForPlaylist(PlaylistName.Text, User.Identity.Name);
                             PlayList.DataSource = datainfo;
                             PlayList.DataBind();
                         }, "Delete Tracks", "Tracks have been removed");
@@ -311,7 +311,7 @@ namespace Jan2018DemoWebsite.SamplePages
             else
             {
                 string playlistname = PlaylistName.Text;
-                string username = "Webmaster"; // change when security implemented
+                string username = User.Identity.Name; // change when security implemented
                 //obtain track id from the ListView line that was selected
                 //for the line I have created a CommandArgument
                 //this value is available via the ListViewCommandEventArgs parameter e

@@ -98,6 +98,8 @@
                                 <asp:MenuItem Text="OLTP"
                                  NavigateUrl="~/SamplePages/ManagePlaylist.aspx"></asp:MenuItem>
                             </asp:MenuItem>
+                            <asp:MenuItem Text="Administrator"
+                                 NavigateUrl="~/Security/SecurityAdmin.aspx"></asp:MenuItem>
                         </Items>
                     </asp:Menu>
                 </div>
