@@ -1,6 +1,7 @@
 <Query Kind="Expression">
   <Connection>
     <ID>eff518ad-31e8-4cc7-9f55-1235bb72ae8c</ID>
+    <Persist>true</Persist>
     <Server>.</Server>
     <Database>GroceryList</Database>
   </Connection>
@@ -86,15 +87,19 @@ from x in Orders select x
 from x in Pickers join y in Orders
 	on x.PickerID equals y.PickerID into xPicOrd
 	select xPicOrd
+
+	
 from x in Pickers join y in Orders
 	on x.PickerID equals y.PickerID into xPicOrd
 	select new {
 		picker = x.LastName + ", " + x.FirstName,
-		pickdates = from y in xPicOrd
-		select new {
-			ID = y.OrderID,
-			Date = y.PickedDate
-		}
+		pickdates = xPicOrd.Where (o => o.PickedDate >= DateTime.Parse("Dec 17, 2017") && o.PickedDate <= DateTime.Parse("Dec 23, 2017")
+							.Orderby(o => o.PickedDate)
+							.Select(o => new
+										{
+											ID = o.OrderID,
+											Date = o.PickedDate
+										})
 }
 
 
@@ -107,6 +112,7 @@ from x in OrderLists select x
 
 from x in OrderLists
 	group x by x.Order.Customer into xCusOrd
+	where xCusOrd.Key.CustomerID == 1
 	select new {
 		Customer = xCusOrd.Key.LastName + ", " + xCusOrd.Key.FirstName,
 		OrderCount = xCusOrd.Key.Orders.Count(),
