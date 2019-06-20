@@ -91,7 +91,8 @@ namespace WebApp.Security
             {
                 if (existing.Roles.Count() > 0)
                 {
-                    foreach (var item in existing.Roles)
+                    List<IdentityUserRole> existingUserRoles = existing.Roles.ToList();
+                    foreach (var item in existingUserRoles)
                     {
                         RemoveUserRole(existing.Id, item.RoleId);
                     }
