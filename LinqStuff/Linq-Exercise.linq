@@ -19,8 +19,8 @@ select new {
 /* 2. 
 We want a mailing list for a Valued Customers flyer that is being sent out. List the customer addresses for customers 
 who have shopped at our stores. List by the store. Include the store location as well as the customer's complete address. 
-Do NOT include the customer name in the results. List the customer address only once for a particular store.*/
-from x in Stores
+Do NOT include the customer name in the results. List the customer address only once for a particular store.
+from x in Stores*/
 select new {
 	Location = x.Location,
 	Clients = (from y in x.Orders
@@ -34,7 +34,6 @@ select new {
 /* 3. 
 Create a Daily Sales per Store request for a specified month. Sort stores by city by location. 
 For Sales, show order date, number of orders, total sales without GST tax and total GST tax.*/
-from x in Stores select x
 
 from x in Stores
 orderby x.City, x.Location
@@ -56,8 +55,6 @@ select new {
 Print out all product items on a requested order (use Order #33). Group by Category and order by Product Description. 
 You do not need to format money as this would be done at the presentation level. Use the QtyPicked in your calculations. 
 Hint: You will need to use type casting (decimal). Use of the ternary operator will help.*/
-from x in OrderLists select x
-from x in Products select x
 
 from x in OrderLists
 group x by x.Product.Category into xCat
@@ -79,13 +76,13 @@ select new {
 
 /* 5. 
 Select all orders a picker has done on a particular week (Sunday through Saturday). Group and sorted by picker. 
-Sort the orders by picked date. Hint: you will need to use the join operator.*/
+Sort the orders by picked date. Hint: you will need to use the join operator.
 from x in Pickers select x
 from x in Orders select x
 
 from x in Pickers join y in Orders
 	on x.PickerID equals y.PickerID into xPicOrd
-	select xPicOrd
+	select xPicOrd*/
 
 	
 from x in Pickers join y in Orders
@@ -109,8 +106,8 @@ from x in Pickers join y in Orders
 
 /* 6. 
 List all the products a customer (use Customer #1) has purchased and the number of times the product was purchased. 
-Sort the products by number of times purchased (highest to lowest) then description.*/
-from x in OrderLists select x
+Sort the products by number of times purchased (highest to lowest) then description.
+from x in OrderLists select x*/
 
 from x in OrderLists
 	group x by x.Order.Customer into xCusOrd
