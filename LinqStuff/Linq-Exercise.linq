@@ -1,6 +1,7 @@
 <Query Kind="Expression">
   <Connection>
     <ID>eff518ad-31e8-4cc7-9f55-1235bb72ae8c</ID>
+    <Persist>true</Persist>
     <Server>.</Server>
     <Database>GroceryList</Database>
   </Connection>
@@ -20,15 +21,17 @@ select new {
 We want a mailing list for a Valued Customers flyer that is being sent out. List the customer addresses for customers 
 who have shopped at our stores. List by the store. Include the store location as well as the customer's complete address. 
 Do NOT include the customer name in the results. List the customer address only once for a particular store.
-from x in Stores*/
+*/
+from x in Stores
+orderby x.Location
 select new {
 	Location = x.Location,
 	Clients = (from y in x.Orders
 	select new {
-		address = x.Address,
-		city = x.City,
-		province = x.Province
-	})
+		address = y.Customer.Address,
+		city = y.Customer.City,
+		province = y.Customer.Province
+	}).Distinct()
 }
 
 /* 3. 
@@ -41,6 +44,7 @@ select new {
 	city = x.City,
 	location = x.Location,
 	sales = from y in x.Orders
+			where y.OrderDate.Month == 12
 			group y by y.OrderDate into yList
 			select new {
 				date = yList.Key,
@@ -57,11 +61,13 @@ You do not need to format money as this would be done at the presentation level.
 Hint: You will need to use type casting (decimal). Use of the ternary operator will help.*/
 
 from x in OrderLists
+where x.OrderID == 33
 group x by x.Product.Category into xCat
 orderby xCat.Key.Description
 select new {
 	Category = xCat.Key.Description,
 	OrderProducts = from y in xCat
+					orderby xCat.Key.Description
 					select new {
 						Product = y.Product.Description,
 						Price = y.Price,
