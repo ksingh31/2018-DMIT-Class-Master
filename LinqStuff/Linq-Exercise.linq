@@ -1,7 +1,6 @@
 <Query Kind="Expression">
   <Connection>
     <ID>eff518ad-31e8-4cc7-9f55-1235bb72ae8c</ID>
-    <Persist>true</Persist>
     <Server>.</Server>
     <Database>GroceryList</Database>
   </Connection>
@@ -67,7 +66,7 @@ orderby xCat.Key.Description
 select new {
 	Category = xCat.Key.Description,
 	OrderProducts = from y in xCat
-					orderby xCat.Key.Description
+					orderby y.Product.Description
 					select new {
 						Product = y.Product.Description,
 						Price = y.Price,
